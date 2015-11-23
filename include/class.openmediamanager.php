@@ -135,7 +135,8 @@ class openmediamanager extends onqbasic_editor {
 			</div>';
 		} else {
 			$body.='<div style="clear:both;padding-top:20px"><p>The system is restarting...</p></div>';
-			exec("/var/www/bin/reboot");
+			exec("/var/www/bin/openmediamanager/reboot");
+			
 			
 		}
 		return $body;		
@@ -165,7 +166,7 @@ class openmediamanager extends onqbasic_editor {
 			</div>';
 		} else {
 			$body.='<div style="clear:both;padding-top:20px"><p>The system is shutting down...</p></div>';
-			exec("/var/www/bin/shutdown");
+			exec("/var/www/bin/openmediamanager/shutdown");
 
 		}
 		return $body;		
@@ -290,7 +291,7 @@ class openmediamanager extends onqbasic_editor {
 		if(isset($this->input['vpn_name']) && $this->input['vpn_name'] != "" && is_numeric($this->input['vpn_name']) && $this->input['vpn_name'] > 0){
 			$sql="UPDATE config set config_value='".$this->input['vpn_name']."' WHERE config_name='SELECTED_VPN_UID'";
 			$res=$this->settings['dbconn']->query($sql);
-			exec("/var/www/bin/create_vpn_files");
+			exec("/var/www/bin/openmediamanager/create_vpn_files");
 		}
 		
 		
@@ -432,7 +433,7 @@ class openmediamanager extends onqbasic_editor {
 				$res  = $this->settings['dbconn']->query($sql);			
 			}
 		}
-		exec("/var/www/bin/create_wifi_settings");
+		exec("/var/www/bin/openmediamanager/create_wifi_settings");
 	}
 	
 
