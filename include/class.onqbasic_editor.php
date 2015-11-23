@@ -675,8 +675,6 @@ class onqbasic_editor {
 			}
 
 
-
-			//exit(print_r($query));			
 			$res  = $this->settings['dbconn']->query($query);
 
 			$row=$res->fetch( PDO::FETCH_ASSOC );

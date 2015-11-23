@@ -1,6 +1,6 @@
 <?php
  //create or open database
-$dbconn = new PDO("sqlite:/var/www/sqlite/openmediamanager.sqlite");
+$dbconn = new PDO("sqlite:/var/www/openmediamanager/sqlite/openmediamanager.sqlite");
 function group_concat_step($context,$idx,$string,$separator) {return ($context) ? ($context . $separator . $string) : $string;}
 function group_concat_finalize($context) { return $context; } 
 $dbconn->sqliteCreateAggregate('group_concat', 'group_concat_step', 'group_concat_finalize', 2);
@@ -12,6 +12,31 @@ $res=$dbconn->query($sql);
 while ($row=$res->fetch( PDO::FETCH_ASSOC )){
 	$applic_config[$row['config_name']]=stripslashes($row['config_value']);
 }
+
+
+$directory="/etc/openvpn";
+	
+if (!file_exists($directory)) {
+	mkdir($directory, 055, true);
+}
+//delete all files in directory
+$files = glob($directory.'/*'); // get all file names
+foreach($files as $file){ // iterate files
+	if(is_file($file)){
+		if($file != '/etc/openvpn/update-resolv-conf'){
+			unlink($file); // delete file
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
 		
 if(isset($applic_config['SELECTED_VPN_UID']) && is_numeric($applic_config['SELECTED_VPN_UID']) && $applic_config['SELECTED_VPN_UID'] > 0 && $applic_config['SELECTED_VPN_UID'] != 999999){
 		$sql="SELECT vpn_company.*,vpn_location.address_pool 
@@ -23,32 +48,15 @@ if(isset($applic_config['SELECTED_VPN_UID']) && is_numeric($applic_config['SELEC
 		
 		$directory="/etc/openvpn";
 		
-		if (!file_exists($directory)) {
-    		mkdir($directory, 055, true);
-		}
-		//delete all files in directory
-		$files = glob($directory.'/*'); // get all file names
-		foreach($files as $file){ // iterate files
-  			if(is_file($file)){
-  				if($file != '/etc/openvpn/update-resolv-conf'){
-    				unlink($file); // delete file
-    			}
-    		}
-		}
-		
 		$extra_params="";
 
 		$extra_params.="up /etc/openvpn/update-resolv-conf\ndown /etc/openvpn/update-resolv-conf\n";
-
-
 
 		$address_pool_array=explode("\n",$row['address_pool']);
 		
 		foreach($address_pool_array as $address_pool){
 			$extra_params.="remote ".$address_pool."\n";
 		}
-
-		
 
 		
 		//create password file
@@ -78,7 +86,7 @@ if(isset($applic_config['SELECTED_VPN_UID']) && is_numeric($applic_config['SELEC
 			$extra_params.="crl-verify crl.pem\n";
 		}
 		
-		$extra_params="up /etc/openvpn/update-resolv-conf\ndown /etc/openvpn/update-resolv-conf\n";
+
 		
 		//finally the openvpn config file
 

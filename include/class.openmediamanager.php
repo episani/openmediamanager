@@ -135,7 +135,7 @@ class openmediamanager extends onqbasic_editor {
 			</div>';
 		} else {
 			$body.='<div style="clear:both;padding-top:20px"><p>The system is restarting...</p></div>';
-			exec("/var/www/bin/openmediamanager/reboot");
+			exec("/var/www/openmediamanager/bin/reboot");
 			
 			
 		}
@@ -166,7 +166,7 @@ class openmediamanager extends onqbasic_editor {
 			</div>';
 		} else {
 			$body.='<div style="clear:both;padding-top:20px"><p>The system is shutting down...</p></div>';
-			exec("/var/www/bin/openmediamanager/shutdown");
+			exec("/var/www/openmediamanager/bin/shutdown");
 
 		}
 		return $body;		
@@ -175,7 +175,6 @@ class openmediamanager extends onqbasic_editor {
 
 
 	function home(){
-		
 
 		$body="";
 
@@ -185,15 +184,29 @@ class openmediamanager extends onqbasic_editor {
 			$step=$this->input['step'];
 		}
 
-		$sql="SELECT * FROM config WHERE config_name='SERIAL' ";
-		$res=$this->settings['dbconn']->query($sql);
-		$row=$res->fetch( PDO::FETCH_ASSOC );
+		$this->read_applic_config();
+
 
 		$body.='<div style="clear:both"></div>';
 		
-		if($row['config_value']==""){
+		
+		if($this->applic_config['SERIAL']!="" && $step==1){
+			$step=2;		
+		}		
+		
+		if($this->applic_config['SELECTED_VPN_UID']!=0 && $step==2 && $this->applic_config['SERIAL']!=""){
+			$step=3;		
+		}		
+
+
+		
+		
+		if($this->applic_config['SERIAL']=="" || $this->applic_config['SELECTED_VPN_UID']==0){
+
 			$error="";
-			if($step==2){
+			
+
+			if($step==2 && $this->applic_config['SERIAL'] ==""){
 				if($this->input['serial']==""){
 					$error="Please enter a serial number";
 				} else {
@@ -211,12 +224,16 @@ class openmediamanager extends onqbasic_editor {
 							$result2=$this->getOMCInfo('set_mac',$postfields);
 							$sql="UPDATE config SET config_value='".$result."' WHERE config_name='SERIAL' ";
 							$res=$this->settings['dbconn']->query($sql);
-							if(file_exists('sqlite/code.txt')){
-								unlink('sqlite/code.txt');							
+							if(file_exists('./sqlite/code.txt')){
+								unlink('./sqlite/code.txt');							
 							}
-							$fp=fopen('sqlite/code.txt',"a");
-							fwrite($fp,$result2);
-							fclose($fp);
+							if($fp=fopen('./sqlite/code.txt',"a")){
+								fwrite($fp,$result);
+								fclose($fp);
+							} else {
+								$body.='Could not create code.txt file';							
+							}
+							$this->read_applic_config();
 						}
 					}
 				}
@@ -225,7 +242,15 @@ class openmediamanager extends onqbasic_editor {
 					$step=1;				
 				}
 			
-			}	
+			}
+			
+			
+			if($step==3 && ($this->applic_config['SELECTED_VPN_UID']==0 || $this->applic_config['SELECTED_VPN_UID']=="")){
+				$sql="UPDATE config set config_value='".$this->input['vpn_name']."' WHERE config_name='SELECTED_VPN_UID'";
+				$res=$this->settings['dbconn']->query($sql);
+				$this->read_applic_config();
+			}			
+				
 			
 			
 			if($step==1){
@@ -236,8 +261,13 @@ class openmediamanager extends onqbasic_editor {
 				if($error!=""){
 					$body.='<p>'.$error.'</p>';				
 				}
-				$body.='<input type="text" name="tx_onqmediamanager_pi1[serial]" value="'.$this->input['serial'].'" />';
-				$body.='<input type="submit" name="tx_onqmediamanager_pi1[submit]" value="submit" />';
+				if(isset($this->input['serial'])){
+					$serial=$this->input['serial'];
+				} else {
+					$serial="";				
+				}
+				$body.='<input type="text" name="tx_onqmediamanager_pi1[serial]" value="'.$serial.'" />';
+				$body.='<input type="submit" name="tx_onqmediamanager_pi1[submit]" value="Next" />';
 				$body.='</form>';
 			}
 			
@@ -245,19 +275,37 @@ class openmediamanager extends onqbasic_editor {
 			
 			
 			if($step==2){
-				$body.='<h2>Please select your VPN company</h2>';
+				$body.='<h2>Please select your VPN Company / Location</h2>';
 				$body.='<form action="'.$this->settings['page'].'" target="_top" method="post">';
 				$body.='<input type="hidden" name="tx_onqmediamanager_pi1[section_name]" value="home" />';
-				$body.='<input type="hidden" name="tx_onqmediamanager_pi1[step]" value="2" />';
+				$body.='<input type="hidden" name="tx_onqmediamanager_pi1[step]" value="3" />';
 				if($error!=""){
 					$body.='<p>'.$error.'</p>';				
 				}
-				$body.='<input type="text" name="tx_onqmediamanager_pi1[serial]" value="'.$this->input['serial'].'" />';
-				$body.='<input type="submit" name="tx_onqmediamanager_pi1[submit]" value="submit" />';
+				$body.=$this->change_vpn_location_home();
+				
+				$body.='<br /><input type="submit" name="tx_onqmediamanager_pi1[submit]" value="Next" />';
+				
 				$body.='</form>';
 			}			
 			
-			
+
+
+			if($step==3){
+				
+				$sql="SELECT * FROM vpn_location WHERE uid=".$this->applic_config['SELECTED_VPN_UID']; 
+				$res=$this->settings['dbconn']->query($sql);
+				$row=$res->fetch( PDO::FETCH_ASSOC );
+				$body.='<h2>Click Next to configure the parameters of your VPN connection</h2>';
+				$body.='<form action="'.$this->settings['page'].'" target="_top" method="post">';
+				if($row['vpn_company_uid']> 0){				
+					$body.='<input type="hidden" name="tx_onqmediamanager_pi1[section_name]" value="openvpn_company" />';
+					$body.='<input type="hidden" name="tx_onqmediamanager_pi1[uid]" value="'.$row['vpn_company_uid'].'" />';
+					$body.='<input type="hidden" name="tx_onqmediamanager_pi1[action]" value="edit" />';
+				}
+				$body.='<input type="submit" name="tx_onqmediamanager_pi1[submit]" value="Next" />';
+				$body.='</form>';
+			}			
 			
 			
 			
@@ -285,13 +333,35 @@ class openmediamanager extends onqbasic_editor {
 
 
 
+	function change_vpn_location_home(){
+		$body="";
+		$body.='<select name="tx_onqmediamanager_pi1[vpn_name]">';
+		$sql="SELECT vpn_location.uid,vpn_company.company_name,vpn_location.location 
+		FROM (vpn_location) 
+		LEFT JOIN vpn_company ON vpn_company.uid=vpn_location.vpn_company_uid 
+		ORDER by vpn_company.company_name,vpn_location.location";
+		
+		$res=$this->settings['dbconn']->query($sql);
+		
+		while ($row=$res->fetch( PDO::FETCH_ASSOC )){ 
+			$body.='<option value="'.$row['uid'].'" ';
+	      if((isset($this->input['vpn_name']) && $this->input['vpn_name'] == $row['uid']) || ($this->applic_config['SELECTED_VPN_UID'] == $row['uid'])){
+				$body.=' selected="selected" '; 
+			}
+			$body.= '>'.stripslashes($row['company_name'])." ".stripslashes($row['location']).'</option>';			
+		}		
+		$body.='</select>';
+		return $body;
+	}
+
+
 
 	function change_vpn_location(){
 		$body="";
 		if(isset($this->input['vpn_name']) && $this->input['vpn_name'] != "" && is_numeric($this->input['vpn_name']) && $this->input['vpn_name'] > 0){
 			$sql="UPDATE config set config_value='".$this->input['vpn_name']."' WHERE config_name='SELECTED_VPN_UID'";
 			$res=$this->settings['dbconn']->query($sql);
-			exec("/var/www/bin/openmediamanager/create_vpn_files");
+			exec("/var/www/openmediamanager/bin/create_vpn_files");
 		}
 		
 		
@@ -433,7 +503,7 @@ class openmediamanager extends onqbasic_editor {
 				$res  = $this->settings['dbconn']->query($sql);			
 			}
 		}
-		exec("/var/www/bin/openmediamanager/create_wifi_settings");
+		exec("/var/www/openmediamanager/bin/create_wifi_settings");
 	}
 	
 
@@ -445,6 +515,12 @@ class openmediamanager extends onqbasic_editor {
 			}
 		}
 		$this->set_dyndns();
+	}
+
+
+
+	function post_update_openvpn_company($id){
+		exec("/var/www/openmediamanager/bin/create_vpn_files");
 	}
 
 

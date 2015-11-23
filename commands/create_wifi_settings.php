@@ -1,6 +1,6 @@
 <?php
  //create or open database
-$dbconn = new PDO("sqlite:/var/www/sqlite/openmediamanager.sqlite");
+$dbconn = new PDO("sqlite:/var/www/openmediamanager/sqlite/openmediamanager.sqlite");
 function group_concat_step($context,$idx,$string,$separator) {return ($context) ? ($context . $separator . $string) : $string;}
 function group_concat_finalize($context) { return $context; } 
 $dbconn->sqliteCreateAggregate('group_concat', 'group_concat_step', 'group_concat_finalize', 2);

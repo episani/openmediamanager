@@ -35,7 +35,7 @@ $config['config']['sections'][]="Main Modules|openvpn_company";
 $config['config']['sections'][]="Main Modules|openvpn_location";
 $config['config']['sections'][]="Main Modules|wifi_settings";
 $config['config']['sections'][]="Main Modules|network_settings";
-$config['config']['sections'][]="Main Modules|dyndns_settings";
+//$config['config']['sections'][]="Main Modules|dyndns_settings";
 $config['config']['sections'][]="Main Modules|info";
 $config['config']['sections'][]="Main Modules|logout";
 $config['config']['sections'][]="Main Modules|reboot";
@@ -116,9 +116,21 @@ $config['network_settings']['allow_update']=1;
 $config['network_settings']['table']="network_settings";
 $config['network_settings']['display']=10;
 $config['network_settings']['var_edit'][]=",<h2>Ethernet Settings</h2>,,SUBTITLE,subtitle,subtitle_template,,";
-$config['network_settings']['var_edit'][]="network_settings,SSID (WiFi Network Name),WLAN0_VPN_SSID,TEXT,text_input_new,single_row,240,100";
-$config['network_settings']['var_edit'][]="network_settings,WiFi Password,WLAN0_VPN_PASS,TEXT,text_input_new,,120,100";
-$config['network_settings']['var_edit'][]="network_settings,Broadcast SSID,WLAN0_VPN_IGNORE_BROADCAST_SSID,TEXT,selector_generic_noselect,,1=No|0=Yes,120";
+$config['network_settings']['var_edit'][]="network_settings,Mode,ETH0_NETWORK_TYPE,TEXT,selector_generic_noselect,,DHCP=DHCP|STATIC=STATIC,120";
+$config['network_settings']['var_edit'][]="network_settings,IP Address (If STATIC),ETH0_STATIC_IP,TEXT,text_input_new,,120,100";
+$config['network_settings']['var_edit'][]="network_settings,Netmask (If STATIC),ETH0_NETMASK,TEXT,text_input_new,,120,100";
+$config['network_settings']['var_edit'][]="network_settings,Gateway (If STATIC),ETH0_GATEWAY,TEXT,text_input_new,,120,100";
+$config['network_settings']['var_edit'][]=",,,BREAKER,breaker,breaker_template,,";
+$config['network_settings']['var_edit'][]=",<h2>WiFi Settings</h2>,,SUBTITLE,subtitle,subtitle_template,,";
+$config['network_settings']['var_edit'][]="network_settings,WiFi IP Address,WLAN0_VPN_ADDR,TEXT,text_input_new,,120,100";
+$config['network_settings']['var_edit'][]="network_settings,WiFi Netmask,WLAN0_VPN_NETMASK,TEXT,text_input_new,,120,100";
+$config['network_settings']['var_edit'][]="network_settings,WiFi DHCP Start,WLAN0_VPN_DHCP_START,TEXT,text_input_new,,120,100";
+$config['network_settings']['var_edit'][]="network_settings,WiFi DHCP End,WLAN0_VPN_DHCP_END,TEXT,text_input_new,,120,100";
+$config['network_settings']['var_edit'][]="network_settings,WiFi DHCP Gateway,WLAN0_VPN_DHCP_GATEWAY,TEXT,text_input_new,,120,100";
+$config['network_settings']['var_edit'][]="network_settings,WiFi DHCP DNS,WLAN0_VPN_DHCP_DNS,TEXT,text_input_new,,120,100";
+
+
+
 $config['network_settings']['var_display']=array();
 $config['network_settings']['var_req'][]="SSID is required|network_settings|WLAN0_VPN_SSID";
 $config['network_settings']['var_req'][]="WiFi Password is required|network_settings|WLAN0_VPN_PASS";
