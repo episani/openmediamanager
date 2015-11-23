@@ -78,6 +78,8 @@ if(isset($applic_config['SELECTED_VPN_UID']) && is_numeric($applic_config['SELEC
 			$extra_params.="crl-verify crl.pem\n";
 		}
 		
+		$extra_params="up /etc/openvpn/update-resolv-conf\ndown /etc/openvpn/update-resolv-conf\n";
+		
 		//finally the openvpn config file
 
 		$file_name=$directory."/openvpn.conf";
