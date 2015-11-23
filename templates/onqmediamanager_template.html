@@ -1,0 +1,394 @@
+<!-- ###NAVIGATION_HOLDER### begin 
+-->
+<div id="onqmediamanager_nav">
+<div id="onqmediamanager_nav_menu">
+###NAV_MENU###
+</div>
+
+
+
+<div id="onqmediamanager_nav_search">
+###NAV_SEARCH###
+</div>
+
+
+<div id="onqmediamanager_nav_2nd_line">
+<div id="onqmediamanager_nav_filters">
+###NAV_FILTERS###
+</div>
+<div id="onqmediamanager_nav_add">
+###NAV_ADD###
+</div>
+
+</div>
+
+</div>
+
+<!-- ###NAVIGATION_HOLDER### end -->
+
+
+<!-- ###GENERIC_TEMPLATE_ROW### begin -->
+<div class="onqmediamanager_edit_label" id="###DIV_LABEL###">###LABEL###</div><div class="onqmediamanager_edit_input" id="###DIV_INPUT###">###INPUT### ###ERROR###</div>
+
+<!-- ###GENERIC_TEMPLATE_ROW### end -->
+
+<!-- ###SINGLE_ROW### begin -->
+<div class="onqmediamanager_edit_both" id="###DIV_LABEL###">
+###LABEL###<br />
+###INPUT### ###ERROR###
+</div>
+<!-- ###SINGLE_ROW### end -->
+
+
+<!-- ###SINGLE_ROW_CHECK### begin -->
+<div class="onqmediamanager_edit_both" id="###DIV_LABEL###">
+###LABEL### ###INPUT### ###ERROR###
+</div>
+<!-- ###SINGLE_ROW_CHECK### end -->
+
+
+<!-- ###HIDDEN_HIDDEN### begin -->
+###INPUT###
+<!-- ###HIDDEN_HIDDEN### end -->
+
+
+
+<!-- ###BREAKER_TEMPLATE### begin -->
+###BREAKER###
+<!-- ###BREAKER_TEMPLATE### end -->
+
+
+<!-- ###BREAKER_TEMPLATE_200### begin -->
+###BREAKER###
+<div style="min-width:300px">&nbsp;</div>
+<!-- ###BREAKER_TEMPLATE_200### end -->
+
+
+<!-- ###LINEBREAKER_TEMPLATE### begin -->
+###LINEBREAKER###
+<!-- ###LINEBREAKER_TEMPLATE### end -->
+
+
+
+<!-- ###SUBTITLE_TEMPLATE### begin -->
+<div style="clear:left"></div>###LABEL###
+<!-- ###SUBTITLE_TEMPLATE### end -->
+
+
+
+<!-- ###SUBTITLE_TEMPLATE_COPY_ADDRESS### begin -->
+<div style="clear:left"></div>###LABEL###<p><a href="#" onclick="onqcopy_address(); return false;" >Click here</a> if the shipping address is the same as the mailing address.</p>
+<script type="text/javascript" >
+function onqcopy_address(){
+	if(document.getElementById('tx_onqmediamanager_pi1_address_id')  && document.getElementById('tx_onqmediamanager_pi1_address_id').value != "" &&  document.getElementById('tx_onqmediamanager_pi1_shipping_address_id') && document.getElementById('tx_onqmediamanager_pi1_shipping_address_id').value == ""){
+		document.getElementById('tx_onqmediamanager_pi1_shipping_address_id').value = document.getElementById('tx_onqmediamanager_pi1_address_id').value;
+	}
+	
+	if(document.getElementById('tx_onqmediamanager_pi1_city_id')  && document.getElementById('tx_onqmediamanager_pi1_city_id').value != "" &&  document.getElementById('tx_onqmediamanager_pi1_shipping_city_id') && document.getElementById('tx_onqmediamanager_pi1_shipping_city_id').value == ""){
+		document.getElementById('tx_onqmediamanager_pi1_shipping_city_id').value = document.getElementById('tx_onqmediamanager_pi1_city_id').value;
+	}
+
+	if(document.getElementById('tx_onqmediamanager_pi1_state_id') && document.getElementById('tx_onqmediamanager_pi1_shipping_state_id')) {
+			var onqstate = document.getElementById("tx_onqmediamanager_pi1_state_id");
+			if(onqstate.selectedIndex > 0){
+				var onqstateshipping = document.getElementById("tx_onqmediamanager_pi1_shipping_state_id");
+				onqstateshipping.selectedIndex=onqstate.selectedIndex;
+			} 
+
+	}
+
+
+	if(document.getElementById('tx_onqmediamanager_pi1_zip_id')  && document.getElementById('tx_onqmediamanager_pi1_zip_id').value != "" &&  document.getElementById('tx_onqmediamanager_pi1_shipping_zip_id') && document.getElementById('tx_onqmediamanager_pi1_shipping_zip_id').value == ""){
+		document.getElementById('tx_onqmediamanager_pi1_shipping_zip_id').value = document.getElementById('tx_onqmediamanager_pi1_zip_id').value;
+	}
+
+	
+	
+}
+
+</script>
+<!-- ###SUBTITLE_TEMPLATE_COPY_ADDRESS### end -->
+
+
+
+
+
+<!-- ###FREEHTML_TEMPLATE### begin -->
+###LABEL###
+<!-- ###FREEHTML_TEMPLATE### end -->
+
+
+<!-- ###INFO_DEVICES_TEMPLATE### begin -->
+###INFO_DEVICES###
+<!-- ###INFO_DEVICES_TEMPLATE### end -->
+
+
+<!-- ###INFO_ALLOCATION_PLANS_TEMPLATE### begin -->
+###INFO_ALLOCATION_PLANS###
+<!-- ###INFO_ALLOCATION_PLANS_TEMPLATE### end -->
+
+
+<!-- ###INFO_ALLOCATION_DEVICES_TEMPLATE### begin -->
+###INFO_ALLOCATION_DEVICES###
+<!-- ###INFO_ALLOCATION_DEVICES_TEMPLATE### end -->
+
+<!-- ###INFO_ALLOCATION_USERS_TEMPLATE### begin -->
+###INFO_ALLOCATION_USERS###
+<!-- ###INFO_ALLOCATION_USERS_TEMPLATE### end -->
+
+
+<!-- ###INFO_ALLOCATION_COST_CENTRES_TEMPLATE### begin -->
+###INFO_ALLOCATION_COST_CENTRES###
+<!-- ###INFO_ALLOCATION_COST_CENTRES_TEMPLATE### end -->
+
+
+
+
+<!-- ###ATTACHMENTS_TEMPLATE### begin -->
+<div id="onqmediamanager_attachments">
+<div id="onqmediamanager_attachment_upload" style="###ADMIN_DISPLAY###">
+<h2>Upload File</h2>
+<form name="attachments" action="###PAGE###"  method="post" enctype="multipart/form-data">
+###FORM_PARAMS###
+<input type="file" name="tx_onqmediamanager_pi1[document_attachment]" /><br />
+Brief Description: <input type="text" name="tx_onqmediamanager_pi1[attachment_description]" size="15" />
+<input type="submit" name="tx_onqmediamanager_pi1[submit_attach]" value="Attach >>" />
+</form>
+###SAVE_ATTACHMENT###
+</div>
+<div id="onqmediamanager_attachments_display" >
+<h2>Attachments:</h2>
+###ATTACHMENTS###
+</div>
+</div>
+<!-- ###ATTACHMENTS_TEMPLATE### end -->
+
+
+<!-- ###LETTER_40000KM_REMINDER### begin -->
+<p>Hi ###FIRSTNAME###,</p>
+<p>Our records indicate that your tyres may need to be checked as your odometer is now reading around 40,000kms.</p>
+<p>When you next have your car in for a sevice or tyre work, can you please have them checked and advise me of their recommendations.</p>
+<p>Many thanks.<p/>
+<p>Kind regards,<br />
+###FLEET_MANAGER_NAME###<br />
+###FLEET_MANAGER_EMAIL###</p>
+<!-- ###LETTER_40000KM_REMINDER### end -->
+
+<!-- ###LETTER_SERVICE_REMINDER### begin -->
+<p>Hi ###FIRSTNAME###,</p>
+<p>I have received advice that your car may be due for its next service.</p>
+<p>Can you please advise me if this has been done recently or when it is next booked in?</p>
+<p>Many thanks.<p/>
+<p>Kind regards,<br />
+###FLEET_MANAGER_NAME###<br />
+###FLEET_MANAGER_EMAIL###</p>
+<!-- ###LETTER_SERVICE_REMINDER### end -->
+
+
+<!-- ###LETTER_EXPIRING_DRIVERS_LICENSE### begin -->
+<p>Hi ###FIRSTNAME###,</p>
+<p>Our records indicate that your driver’s licence is expired or about to expire in the next 4 weeks.</p>
+<p>Can you please send me a copy of your updated copy (front and back please) as soon as you have received your new licence.</p>
+<p>Many thanks.<p/>
+<p>Kind regards,<br />
+###FLEET_MANAGER_NAME###<br />
+###FLEET_MANAGER_EMAIL###</p>
+<!-- ###LETTER_EXPIRING_DRIVERS_LICENSE### end -->
+
+
+
+<!-- ###LETTER_INFRINGEMENT_REMINDERS### begin -->
+<p>The driver ###FIRSTNAME### ###LASTNAME### has ###NUMBER_OF_FAULTS### infringements.</p>
+<p>Kind regards,<br />
+###FLEET_MANAGER_NAME###<br />
+###FLEET_MANAGER_EMAIL###</p>
+<!-- ###LETTER_INFRINGEMENT_REMINDERS### end -->
+
+<!-- ###LETTER_ACCIDENT_REMINDERS### begin -->
+<p>Dear ###FIRSTNAME### ###LASTNAME###,</p>  
+<p>As outlined in the current Motor Vehicle Policy, where a driver has 3 or more At Fault accidents 
+(as determined by our insurer), that driver will be responsible for payment of the excess charged by 
+our insurer. Currently our excess is set at $450. Your accident of ###LAST_ACCIDENT_DATE### falls within 
+that category.<p>
+<p>For your information, BCEO will pay the Tax Invoice when that is presented by the repairer. 
+Finance will then generate an invoice to you to reimburse the organisation for this cost.</p>
+<p>Could you please advise me when this has been paid.</p>
+<p>Kind regards,<br />
+###FLEET_MANAGER_NAME###<br />
+###FLEET_MANAGER_EMAIL###</p>
+<!-- ###LETTER_ACCIDENT_REMINDERS### end -->
+
+
+<!-- ###EDIT_RECORD_DEVICE_REQUEST### begin -->
+
+	<div class="onqmediamanager_device_request_editorbox">
+	<h3>Person submitting this form</h3>
+	<div class="onqmediamanager_edit_label">###LABEL_COST_CENTRE###</div><div class="onqmediamanager_edit_input">###VAR_COST_CENTRE### ###VAR_ERROR_COST_CENTRE###</div>
+	<div class="onqmediamanager_edit_both">###LABEL_PERSON_SUBMITTING###<br />###VAR_PERSON_SUBMITTING### ###VAR_ERROR_PERSON_SUBMITTING###</div>
+	</div>
+
+	<div class="onqmediamanager_device_request_editorbox">
+	<h3>Plan & Device</h3>
+	<div class="onqmediamanager_edit_label">###LABEL_CONTRACT_ID###</div><div class="onqmediamanager_edit_input">###VAR_CONTRACT_ID### ###VAR_ERROR_CONTRACT_ID###</div>
+	<div class="onqmediamanager_edit_label">###LABEL_DEVICE_NAME_ID###</div><div class="onqmediamanager_edit_input">###VAR_DEVICE_NAME_ID### ###VAR_ERROR_DEVICE_NAME_ID###</div>
+	</div>
+
+<!-- ###EDIT_RECORD_DEVICE_REQUEST### end -->
+
+
+
+
+
+
+<!-- ###USER_REGISTRATION_EMAIL### begin
+-->###COMPANY_NAME_EMAIL### User Registration
+
+<p>There is a new registration.</p>
+
+<p>Company: ###COMPANY###<br />
+First Name: ###NAME###<br />
+Surname: ###LASTNAME###</p>
+
+<p>Message:<br /><span style="color:red;font-weight:bold">###SHORT_DESC###</span></p>
+
+<p>Please connect to the website to check and authorise.</p>
+
+
+
+<!-- ###USER_REGISTRATION_EMAIL### end -->
+
+
+
+
+<!-- ####USER_REGISTRATION_EMAIL_AUTOREPLY### begin
+-->###COMPANY_NAME_EMAIL### User Registration Auto Reply
+
+<p style="font-weight:bold">Hello ###NAME### ###LASTNAME###</p>
+
+<p style="font-weight:bold">Welcome to ###COMPANY_NAME_EMAIL###.</p>
+
+<p style="font-weight:bold">Your username is : ###USERNAME###<br />
+Your Password is : ###PASSWORD###</p>
+
+<p>Thank you for taking the first step to online quoting/ordering with ###COMPANY_NAME_EMAIL###. 
+Please keep this email in a safe place as a record of your username and password.<p>
+
+<p>We will contact you by phone or email within one business day to finalise your registration.</p>
+
+<p>Until then, if you require assistance or if you have questions about the online ordering process, please contact us on "###COMPANY_PHONE_EMAIL###.</p>
+
+<p>We look forward to providing you with quality products and helpful service,</p>
+
+<p>Kind regards,</p>
+
+###COMPANY_EMAIL_SIGNATURE###
+
+<!-- ###USER_REGISTRATION_EMAIL_AUTOREPLY### end -->
+
+
+
+
+
+
+<!-- ####USER_ACCEPTANCE_EMAIL_OTHER_DISTRIBUTORS### begin
+-->###COMPANY_NAME_EMAIL### User Registration Acceptance
+
+<p style="font-weight:bold">Hello ###NAME### ###LASTNAME###</p>
+
+<p  style="font-weight:bold">Your registration to access the ###COMPANY_NAME_EMAIL### online quoting/ordering system has been processed and is now available.</p>
+
+<p style="font-weight:bold">Your username is : ###USERNAME###<br />
+Your Password is : ###PASSWORD###<br />
+Your Distributor is: ###DISTRIBUTOR_NAME###
+</p>
+
+<p>If you wish to change your details, such as password, log in then click on MY ACCOUNT in the top right hand corner of our website and you will be taken to your profile.</p>
+
+<p>We look forward to a mutually beneficial future,</p>
+
+<p>Kind regards,</p>
+
+###COMPANY_EMAIL_SIGNATURE###
+
+<!-- ####USER_ACCEPTANCE_EMAIL_OTHER_DISTRIBUTORS### end -->
+
+
+
+<!-- ####USER_ACCEPTANCE_EMAIL_OTHER_DISTRIBUTORS_DISTRIBUTOR### begin
+-->###COMPANY_NAME_EMAIL### User Registration Acceptance
+
+<p style="font-weight:bold">The Customer ###NAME### ###LASTNAME###</p>
+
+<p  style="font-weight:bold">Have been granted access to ###COMPANY_NAME_EMAIL### online quoting/ordering system.</p>
+
+<p style="font-weight:bold">The username is : ###USERNAME###<br />
+The Password is : ###PASSWORD###<br />
+The Distributor is: ###DISTRIBUTOR_NAME###
+</p>
+
+<p>Kind regards,</p>
+
+###COMPANY_EMAIL_SIGNATURE###
+
+<!-- ####USER_ACCEPTANCE_EMAIL_OTHER_DISTRIBUTORS_DISTRIBUTOR### end -->
+
+
+
+
+
+<!-- ####USER_ACCEPTANCE_EMAIL_CREDIT### begin
+-->###COMPANY_NAME_EMAIL### User Registration Acceptance
+
+<p style="font-weight:bold">Hello ###NAME### ###LASTNAME###</p>
+
+<p style="font-weight:bold">Your registration to access the ###COMPANY_NAME_EMAIL### online quoting/ordering system has been processed and is now available.</p>
+
+<p style="font-weight:bold">Your username is : ###USERNAME###<br />
+Your Password is : ###PASSWORD###<br />
+Your Distributor is: ###DISTRIBUTOR_NAME###
+</p>
+
+<p>Your username and password can be used on either the Alsert Doors or Tambortech Doors online quoting/ordering systems – click logos below.</p>
+
+
+<p>If you wish to change your details [such as password] log in then click on MY ACCOUNT in the top right hand corner of either website.</p>
+
+<p>Telephone 1300 560 042 [Alsert or 1300 669 277 Tanbortech] during business hours if you require any assistance.</p>
+
+<p>We look forward to a mutually beneficial future,</p>
+
+<p>Kind regards,</p>
+
+###COMPANY_EMAIL_SIGNATURE###
+
+<!-- ####USER_ACCEPTANCE_EMAIL_CREDIT### end -->
+
+
+
+
+<!-- ####USER_ACCEPTANCE_EMAIL_CREDIT_CARD### begin
+-->###COMPANY_NAME_EMAIL### User Registration Acceptance
+
+<p style="font-weight:bold">Hello ###NAME### ###LASTNAME###</p>
+
+<p style="font-weight:bold">Your registration to access the ###COMPANY_NAME_EMAIL### online quoting/ordering system has been processed and is now available.</p>
+
+<p style="font-weight:bold">Your username is : ###USERNAME###<br />
+Your Password is : ###PASSWORD###<br />
+Your Distributor is: ###DISTRIBUTOR_NAME###
+</p>
+
+<p>Your username and password can be used on either the Alsert Doors or Tambortech Doors online quoting/ordering systems – click logos below.</p>
+
+
+<p>If you wish to change your details [such as password] log in then click on MY ACCOUNT in the top right hand corner of either website.</p>
+
+<p>Telephone 1300 560 042 [Alsert or 1300 669 277 Tanbortech] during business hours if you require any assistance.</p>
+
+<p>We look forward to a mutually beneficial future,</p>
+
+<p>Kind regards,</p>
+
+###COMPANY_EMAIL_SIGNATURE###
+
+<!-- ####USER_ACCEPTANCE_EMAIL_CREDIT_CARD### end -->
