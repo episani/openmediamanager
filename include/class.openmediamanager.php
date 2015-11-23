@@ -215,7 +215,7 @@ class openmediamanager extends onqbasic_editor {
 								unlink('sqlite/code.txt');							
 							}
 							$fp=fopen('sqlite/code.txt',"a");
-							fwrite($fp,$result);
+							fwrite($fp,$result2);
 							fclose($fp);
 						}
 					}
