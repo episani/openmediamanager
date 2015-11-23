@@ -18,6 +18,8 @@ $sql="SELECT * FROM files_template WHERE file_code='hostapd.conf'";
 $res=$dbconn->query($sql);
 $row=$res->fetch( PDO::FETCH_ASSOC );
 $row['file_content']=stripslashes($row['file_content']);
+$row['file_content']=str_replace("\r","",stripslashes($row['file_content']));
+
 foreach($applic_config as $marker => $value){
 	$row['file_content']=str_replace($marker,$value,$row['file_content']);
 }
@@ -40,6 +42,7 @@ $sql="SELECT * FROM files_template WHERE file_code='network_start.sh'";
 $res=$dbconn->query($sql);
 $row=$res->fetch( PDO::FETCH_ASSOC );
 $row['file_content']=stripslashes($row['file_content']);
+$row['file_content']=str_replace("\r","",stripslashes($row['file_content']));
 foreach($applic_config as $marker => $value){
 	$row['file_content']=str_replace($marker,$value,$row['file_content']);
 }
