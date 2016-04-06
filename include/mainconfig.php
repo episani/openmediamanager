@@ -33,7 +33,6 @@ $config['config']['security_mode']="administrator";
 $config['config']['sections'][]="Main Modules|home";
 $config['config']['sections'][]="Main Modules|openvpn_company";
 $config['config']['sections'][]="Main Modules|openvpn_location";
-$config['config']['sections'][]="Main Modules|wifi_settings";
 $config['config']['sections'][]="Main Modules|network_settings";
 //$config['config']['sections'][]="Main Modules|dyndns_settings";
 $config['config']['sections'][]="Main Modules|info";
@@ -79,30 +78,6 @@ $config['shutdown']['title']="Shutdown";
 
 
 
-$config['wifi_settings']['nav_menu']=1;
-$config['wifi_settings']['nav_search']=0;
-$config['wifi_settings']['nav_add']=0;
-$config['wifi_settings']['nav_filter']=0;
-$config['wifi_settings']['security_mode']=$config['config']['security_mode'];
-$config['wifi_settings']['title']="Wifi Settings";
-$config['wifi_settings']['allow_edit']=1;
-$config['wifi_settings']['allow_delete']=1;
-$config['wifi_settings']['allow_add']=0;
-$config['wifi_settings']['allow_update']=1;
-$config['wifi_settings']['table']="wifi_settings";
-$config['wifi_settings']['display']=10;
-$config['wifi_settings']['var_edit'][]=",<h2>Wifi Settings</h2>,,SUBTITLE,subtitle,subtitle_template,,";
-$config['wifi_settings']['var_edit'][]="wifi_settings,SSID (WiFi Network Name),WLAN0_VPN_SSID,TEXT,text_input_new,single_row,240,100";
-$config['wifi_settings']['var_edit'][]="wifi_settings,WiFi Password,WLAN0_VPN_PASS,TEXT,text_input_new,,120,100";
-$config['wifi_settings']['var_edit'][]="wifi_settings,Broadcast SSID,WLAN0_VPN_IGNORE_BROADCAST_SSID,TEXT,selector_generic_noselect,,1=No|0=Yes,120";
-$config['wifi_settings']['var_display']=array();
-$config['wifi_settings']['var_req'][]="SSID is required|wifi_settings|WLAN0_VPN_SSID";
-$config['wifi_settings']['var_req'][]="WiFi Password is required|wifi_settings|WLAN0_VPN_PASS";
-
-
-
-
-
 $config['network_settings']['nav_menu']=1;
 $config['network_settings']['nav_search']=0;
 $config['network_settings']['nav_add']=0;
@@ -122,12 +97,16 @@ $config['network_settings']['var_edit'][]="network_settings,Netmask (If STATIC),
 $config['network_settings']['var_edit'][]="network_settings,Gateway (If STATIC),ETH0_GATEWAY,TEXT,text_input_new,,120,100";
 $config['network_settings']['var_edit'][]=",,,BREAKER,breaker,breaker_template,,";
 $config['network_settings']['var_edit'][]=",<h2>WiFi Settings</h2>,,SUBTITLE,subtitle,subtitle_template,,";
+$config['network_settings']['var_edit'][]="network_settings,SSID (WiFi Network Name),WLAN0_VPN_SSID,TEXT,text_input_new,single_row,240,100";
+$config['network_settings']['var_edit'][]="network_settings,WiFi Password,WLAN0_VPN_PASS,TEXT,text_input_new,,120,100";
+$config['network_settings']['var_edit'][]="network_settings,Broadcast SSID,WLAN0_VPN_IGNORE_BROADCAST_SSID,TEXT,selector_generic_noselect,,1=No|0=Yes,120";
 $config['network_settings']['var_edit'][]="network_settings,WiFi IP Address,WLAN0_VPN_ADDR,TEXT,text_input_new,,120,100";
 $config['network_settings']['var_edit'][]="network_settings,WiFi Netmask,WLAN0_VPN_NETMASK,TEXT,text_input_new,,120,100";
 $config['network_settings']['var_edit'][]="network_settings,WiFi DHCP Start,WLAN0_VPN_DHCP_START,TEXT,text_input_new,,120,100";
 $config['network_settings']['var_edit'][]="network_settings,WiFi DHCP End,WLAN0_VPN_DHCP_END,TEXT,text_input_new,,120,100";
 $config['network_settings']['var_edit'][]="network_settings,WiFi DHCP Gateway,WLAN0_VPN_DHCP_GATEWAY,TEXT,text_input_new,,120,100";
 $config['network_settings']['var_edit'][]="network_settings,WiFi DHCP DNS,WLAN0_VPN_DHCP_DNS,TEXT,text_input_new,,120,100";
+$config['network_settings']['var_edit'][]="network_settings,WiFi Channel,WLAN0_CHANNEL,TEXT,selector_generic,,1=1|2=2|3=3|4=4|5=5|6=6|7=7|8=8|9=9|10=10|11=11|12=12|13=13,100";
 
 
 
@@ -160,6 +139,8 @@ $config['dyndns_settings']['var_display']=array();
 $config['dyndns_settings']['var_req']=array();
 
 
+$config['openvpn_company']['editable_field']=1;
+$config['openvpn_company']['view_only_if_not_editable'][]='company_name';
 $config['openvpn_company']['nav_menu']=1;
 $config['openvpn_company']['nav_search']=0;
 $config['openvpn_company']['nav_add']=1;
@@ -185,7 +166,7 @@ $config['openvpn_company']['var_edit'][]=",,,BREAKER,breaker,breaker_template,,"
 $config['openvpn_company']['var_edit'][]="vpn_company,Certificate (cert),cert,TEXT,textarea_input_new,single_row,245,200";
 $config['openvpn_company']['var_edit'][]="vpn_company,Key,cert_key,TEXT,textarea_input_new,single_row,245,200";
 $config['openvpn_company']['var_edit'][]="vpn_company,CRL Pem,crl_pem,TEXT,textarea_input_new,single_row,245,200";
-$config['openvpn_company']['var_display'][]="ID,vpn_company,uid,,left,100";
+//$config['openvpn_company']['var_display'][]="ID,vpn_company,uid,,left,100";
 $config['openvpn_company']['var_display'][]="Company,vpn_company,company_name,,left,100";
 $config['openvpn_company']['var_display'][]="User Name,vpn_company,username,,left,100";
 $config['openvpn_company']['var_display'][]="Password,vpn_company,password,,left,100";		
@@ -196,7 +177,8 @@ $config['openvpn_company']['var_req'][]="Company Name is required|vpn_company|co
 $config['openvpn_company']['var_req'][]="OpenVPN parameters are required|vpn_company|openvpn_parameters";
 
 
-
+$config['openvpn_location']['editable_field']=1;
+$config['openvpn_location']['view_only_if_not_editable'][]='location';
 $config['openvpn_location']['nav_menu']=1;
 $config['openvpn_location']['nav_search']=0;
 $config['openvpn_location']['nav_add']=1;
@@ -221,7 +203,7 @@ $config['openvpn_location']['var_edit'][]="vpn_location,Address Pool,address_poo
 
 $config['openvpn_location']['var_edit'][]=",<h2>Open VPN Company</h2>,,SUBTITLE,subtitle,subtitle_template,,";
 $config['openvpn_location']['var_edit'][]="vpn_location,VPN Company Name,vpn_company_uid,TEXT,selector_new,,vpn_company=uid=company_name,100,100";
-$config['openvpn_location']['var_display'][]="ID,vpn_location,uid,,left,100";
+//$config['openvpn_location']['var_display'][]="ID,vpn_location,uid,,left,100";
 $config['openvpn_location']['var_display'][]="Company,vpn_company,company_name,,left,100";
 $config['openvpn_location']['var_display'][]="Location,vpn_location,location,,left,100";
 $config['openvpn_location']['var_search'][]="vpn_company.company_name";

@@ -228,6 +228,7 @@ class onqbasic_editor {
 
 		$res=$this->settings['dbconn']->query($query);
 		//print_r($query);
+		//exit();
 
 
 		if($res) {
@@ -324,11 +325,7 @@ class onqbasic_editor {
 
 			if($this->config['allow_edit']== 1) {
 				$body.='<td class="onqmediamanager_list_table_header">';
-				$body.='
-				<form name="get_csv" action="download_csv.php" method="post" target="_blank">
-				<input type="hidden" name="csv" value="'.base64_encode(serialize($csv)).'" />
-				<input type="submit" value="get csv" style="padding:2px"/>
-				</form>';
+				$body.='&nbsp;';
 				$body.='</td>';
 			}
 
@@ -403,12 +400,16 @@ class onqbasic_editor {
 
 			if($this->config['allow_delete']== 1) {
 				$body.='<td style="text-align:center;width:40px">';
-				$body.='<form name="delete" action="'.$this->settings['page'].'" method="post">';
-				$body.='<input type="hidden" name="'.$this->settings['ext_name'].'[action]" value="del" />';
-				$body.='<input type="hidden" name="'.$this->settings['ext_name'].'[uid]" value="'.$row['uid'].'" />';
-				$body.='<input type="hidden" name="'.$this->settings['ext_name'].'[all_saved]" value="'.base64_encode(serialize($this->input)).'">'."\n";				
-				$body.='<input type="submit" value="'.$this->settings['delete_button_caption'].'" class="'.$this->settings['delete_button_class'].'" />';
-				$body.='</form>';
+				if($this->config['editable_field']==0 || ($this->config['editable_field']==1 && $row['editable']==1)){
+    			    	    $body.='<form name="delete" action="'.$this->settings['page'].'" method="post">';
+				    $body.='<input type="hidden" name="'.$this->settings['ext_name'].'[action]" value="del" />';
+				    $body.='<input type="hidden" name="'.$this->settings['ext_name'].'[uid]" value="'.$row['uid'].'" />';
+				    $body.='<input type="hidden" name="'.$this->settings['ext_name'].'[all_saved]" value="'.base64_encode(serialize($this->input)).'">'."\n";				
+				    $body.='<input type="submit" value="'.$this->settings['delete_button_caption'].'" class="'.$this->settings['delete_button_class'].'" />';
+				    $body.='</form>';
+				} else {
+				    $body.='&nbsp;';
+				}
 				$body.='</td>';
 			}
 
@@ -486,7 +487,7 @@ class onqbasic_editor {
 
 			$body.='<div  align="center"><table class="onqmediamanager_list_table">';
 			$body.='<tr>';
-      	$body.='<td class="onqmediamanager_list_table_td"  style="width:100px;text-align:left">';
+		 	$body.='<td class="onqmediamanager_list_table_td"  style="width:100px;text-align:left">';
 			if($page > 0){
 				$body.='<form name="previous" action="'.$this->settings['page'].'" method="post">'."\n";
 				$input=array();
@@ -714,6 +715,14 @@ class onqbasic_editor {
 				$editor['template']=$pieces[5];
 				$editor['var_length']=$pieces[6];
 				$editor['max_length']=$pieces[7];
+				$editor['disabled']=0;
+				if($this->config['editable_field']==1 && $row['editable']==0 && $ed==1){
+				    foreach($this->config['view_only_if_not_editable'] as $value){
+					if($value==$editor['var_name']){
+					    $editor['disabled']=1;
+					}
+				    }
+				}
 
 				$body.=$this->tr_display($row,$j,$ed,$editor);
 				$j++;
@@ -868,6 +877,7 @@ class onqbasic_editor {
 		$display=array();
 		$display['ed']=$ed;
 		$display['label']=$editor['label'];
+		$display['disabled']=$editor['disabled'];
 		
 		if($editor['var_name'] != "") {
 			$display['name']="tx_onqmediamanager_pi1[".$editor['var_name']."]";
@@ -977,7 +987,10 @@ class onqbasic_editor {
 		$markerArray['###INPUT###']='<input type="text" name="'.$display['name'].'" id="'.$display['id'].'" value="'.$display['value'].'" ';
 		if($display['var_length'] > 0) {
 			$markerArray['###INPUT###'].='style="width:'.$display['var_length'].'px" ';
-		}		
+		}
+		if($display['disabled']==1){
+		    $markerArray['###INPUT###'].=' disabled="disabled" ';
+		}
 		$markerArray['###INPUT###'].='/>';
 		if(isset($display['error'])) {
 			$markerArray['###ERROR###']='<br />'.$display['error'];

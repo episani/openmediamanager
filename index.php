@@ -168,12 +168,19 @@ if((!isset($sessionData['loggedin']) || $sessionData['loggedin']==0)){
 		}
 		
 		
-		$sql="SELECT * FROM config WHERE config_name='SERIAL' ";
+		$sql="SELECT * FROM config WHERE config_name='SELECTED_VPN_UID' ";
 		$res=$dbconn->query($sql);
 		$row=$res->fetch( PDO::FETCH_ASSOC );
 
-		if($row['config_value']!=""){
-			$content.=$applic->navigation_holder();
+		if($row['config_value']!=0){
+			$sql="SELECT * FROM vpn_company WHERE uid=(SELECT vpn_company_uid FROM vpn_location WHERE uid=".$row['config_value'].")";
+			$res=$dbconn->query($sql);
+			$row=$res->fetch( PDO::FETCH_ASSOC );
+			
+			if($row['username']!="" && $row['password']!=""){
+				$content.=$applic->navigation_holder();
+			}
+
 		}		
 		
 		if($input['section_name']=="login"){

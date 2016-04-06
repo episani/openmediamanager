@@ -4,16 +4,12 @@ $dbconn = new PDO("sqlite:/var/www/openmediamanager/sqlite/openmediamanager.sqli
 function group_concat_step($context,$idx,$string,$separator) {return ($context) ? ($context . $separator . $string) : $string;}
 function group_concat_finalize($context) { return $context; } 
 $dbconn->sqliteCreateAggregate('group_concat', 'group_concat_step', 'group_concat_finalize', 2);
-
-
 $sql="SELECT * FROM config";
 $res=$dbconn->query($sql);
 		
 while ($row=$res->fetch( PDO::FETCH_ASSOC )){
 	$applic_config[$row['config_name']]=stripslashes($row['config_value']);
 }
-
-
 $directory="/etc/openvpn";
 	
 if (!file_exists($directory)) {
@@ -28,15 +24,6 @@ foreach($files as $file){ // iterate files
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
 		
 if(isset($applic_config['SELECTED_VPN_UID']) && is_numeric($applic_config['SELECTED_VPN_UID']) && $applic_config['SELECTED_VPN_UID'] > 0 && $applic_config['SELECTED_VPN_UID'] != 999999){
 		$sql="SELECT vpn_company.*,vpn_location.address_pool 
@@ -49,15 +36,12 @@ if(isset($applic_config['SELECTED_VPN_UID']) && is_numeric($applic_config['SELEC
 		$directory="/etc/openvpn";
 		
 		$extra_params="";
-
 		$extra_params.="up /etc/openvpn/update-resolv-conf\ndown /etc/openvpn/update-resolv-conf\n";
-
 		$address_pool_array=explode("\n",$row['address_pool']);
 		
 		foreach($address_pool_array as $address_pool){
 			$extra_params.="remote ".$address_pool."\n";
 		}
-
 		
 		//create password file
 		if($row['username'] != "" && $row['password'] != ""){
@@ -76,8 +60,6 @@ if(isset($applic_config['SELECTED_VPN_UID']) && is_numeric($applic_config['SELEC
 			fclose($fp);
 			$extra_params.="ca ca.crt\n";
 		}
-
-
 		if($row['crl_pem'] != ""){
 			$file_name=$directory."/crl.pem";
 			$fp=fopen($file_name,"a");
@@ -86,10 +68,8 @@ if(isset($applic_config['SELECTED_VPN_UID']) && is_numeric($applic_config['SELEC
 			$extra_params.="crl-verify crl.pem\n";
 		}
 		
-
 		
 		//finally the openvpn config file
-
 		$file_name=$directory."/openvpn.conf";
 		$fp=fopen($file_name,"a");
 		fwrite($fp,stripslashes($row['openvpn_parameters'])."\n".$extra_params);
@@ -97,7 +77,6 @@ if(isset($applic_config['SELECTED_VPN_UID']) && is_numeric($applic_config['SELEC
 		echo '0';
 		return;
 }
-
 if($applic_config['SELECTED_VPN_UID'] == 999999){
 	echo '1';
 	return;

@@ -5,7 +5,7 @@ function group_concat_step($context,$idx,$string,$separator) {return ($context) 
 function group_concat_finalize($context) { return $context; } 
 $dbconn->sqliteCreateAggregate('group_concat', 'group_concat_step', 'group_concat_finalize', 2);
 
-
+$applic_config=array();
 $sql="SELECT * FROM config";
 $res=$dbconn->query($sql);
 		
@@ -41,8 +41,18 @@ while ($row=$res->fetch( PDO::FETCH_ASSOC )){
 	} else {
 		$sql="UPDATE vpn_company set username='vpnbook',password='sWedre3u',tls_auth=''";
 	}
-	$res2=$dbconn->query($sql);
+	//$res2=$dbconn->query($sql);
 }
+
+//reload config
+$applic_config=array();
+$sql="SELECT * FROM config";
+$res=$dbconn->query($sql);
+		
+while ($row=$res->fetch( PDO::FETCH_ASSOC )){
+	$applic_config[$row['config_name']]=stripslashes($row['config_value']);
+}
+
 
 
 
