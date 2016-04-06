@@ -41,7 +41,7 @@ while ($row=$res->fetch( PDO::FETCH_ASSOC )){
 	} else {
 		$sql="UPDATE vpn_company set username='vpnbook',password='sWedre3u',tls_auth=''";
 	}
-	//$res2=$dbconn->query($sql);
+	$res2=$dbconn->query($sql);
 }
 
 //reload config
