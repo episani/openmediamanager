@@ -20,13 +20,13 @@ gcc reboot.c -o reboot
 gcc shutdown.c -o shutdown
 gcc create_vpn_files.c -o create_vpn_files
 gcc create_network_files.c -o create_network_files
-gcc create_wifi_settings.c -o create_wifi_settings
+#gcc create_wifi_settings.c -o create_wifi_settings
 
 cp reboot ../bin/
 cp shutdown ../bin/
 cp create_vpn_files ../bin/
 cp create_network_files ../bin/
-cp create_wifi_settings ../bin/
+#cp create_wifi_settings ../bin/
 cd /var/www/openmediamanager/bin
 chown root:root *
 chmod 755 *

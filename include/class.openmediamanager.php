@@ -50,21 +50,10 @@ class openmediamanager extends onqbasic_editor {
 				break;
 
 			case "wifi_settings":
-				$this->main();
-				break;
-				
 			case "network_settings":
-				$this->main();
-				break;				
-
 			case "dyndns_settings":
-				$this->main();
-				break;
-
 			case "openvpn_company":
-				$this->main();
-				break;
-
+			case "openvpn_company_up":
 			case "openvpn_location":
 				$this->main();
 				break;
@@ -178,95 +167,67 @@ class openmediamanager extends onqbasic_editor {
 
 		$body="";
 
-		if(!isset($this->input['step'])){
-			$step=2;		
-		} else {
-			$step=$this->input['step'];
+		if(isset($this->input['vpn_name']) && $this->input['vpn_name']> 0){
+			$sql="UPDATE config set config_value='".$this->input['vpn_name']."' WHERE config_name='SELECTED_VPN_UID'";
+			$res=$this->settings['dbconn']->query($sql);
 		}
 
 		$this->read_applic_config();
 		
-		$configure=0;
+		$enter_password=0;
 		
-		if($this->applic_config['SELECTED_VPN_UID']!=0){		
-
+		if($this->applic_config['SELECTED_VPN_UID'] !=0 && $this->applic_config['SELECTED_VPN_UID'] !=43){		
 			$sql="SELECT * FROM vpn_company WHERE uid=(SELECT vpn_company_uid FROM vpn_location WHERE uid=".$this->applic_config['SELECTED_VPN_UID'].")";
 			$res=$this->settings['dbconn']->query($sql);
 			$row=$res->fetch( PDO::FETCH_ASSOC );
 			
 			if($row['username']=="" || $row['password']==""){
-				$configure=1;
+				$enter_password=1;
 			}
 		}
 		
-		
-		if($configure==1 && $step==2){
-			$step=3;		
-		}
-		
-
-
 		$body.='<div style="clear:both"></div>';
 		
 		
 		
-
-		
-		
-		if($this->applic_config['SELECTED_VPN_UID']==0 || $configure==1){
+		if($this->applic_config['SELECTED_VPN_UID']==0){
 
 			$error="";
 			
 			
-			if($step==3 && ($this->applic_config['SELECTED_VPN_UID']==0 || $this->applic_config['SELECTED_VPN_UID']=="")){
-				$sql="UPDATE config set config_value='".$this->input['vpn_name']."' WHERE config_name='SELECTED_VPN_UID'";
-				$res=$this->settings['dbconn']->query($sql);
-				$this->read_applic_config();
-			}			
+			$body.='<h2>Please select your VPN Company / Location and click next</h2>';
+			$body.='<p>If You don\'t have a VPN connection yet, you can select <b><i>No VPN</i></b> or any of the free <b><i>VPN Book</i></b> locations.</p>';
+			$body.='<form action="'.$this->settings['page'].'" target="_top" method="post">';
+			$body.='<input type="hidden" name="tx_onqmediamanager_pi1[section_name]" value="home" />';
+			if($error!=""){
+				$body.='<p>'.$error.'</p>';				
+			}
+			$body.=$this->change_vpn_location_home();
 				
+			$body.=' <input type="submit" name="tx_onqmediamanager_pi1[submit]" value="Next >>" />';
+				
+			$body.='</form>';
 			
-			
-			
-			
-			
-			if($step==2){
-				$body.='<h2>Please select your VPN Company / Location and click next</h2>';
-				$body.='<form action="'.$this->settings['page'].'" target="_top" method="post">';
-				$body.='<input type="hidden" name="tx_onqmediamanager_pi1[section_name]" value="home" />';
-				$body.='<input type="hidden" name="tx_onqmediamanager_pi1[step]" value="3" />';
-				if($error!=""){
-					$body.='<p>'.$error.'</p>';				
+		}elseif($enter_password==1){
+			$body.='<h2>Your VPN company is '.stripslashes($row['company_name']).'</h2>';
+			$body.='<p>Click Next to configure the required parameters of your VPN company</p>';
+			$body.='<form action="'.$this->settings['page'].'" target="_top" method="post">';
+			if($row['uid']> 0){
+				if($row['uid']==1 || $row['uid']==2){				
+				    $body.='<input type="hidden" name="tx_onqmediamanager_pi1[section_name]" value="openvpn_company_up" />';
+				} else {
+				    $body.='<input type="hidden" name="tx_onqmediamanager_pi1[section_name]" value="openvpn_company" />';
 				}
-				$body.=$this->change_vpn_location_home();
-				
-				$body.=' <input type="submit" name="tx_onqmediamanager_pi1[submit]" value="Next >>" />';
-				
-				$body.='</form>';
-			}			
-			
-
-
-			if($step==3){
-				
-				$sql="SELECT * FROM vpn_location WHERE uid=".$this->applic_config['SELECTED_VPN_UID']; 
-				$res=$this->settings['dbconn']->query($sql);
-				$row=$res->fetch( PDO::FETCH_ASSOC );
-				$body.='<h2>Click Next to configure the parameters of your VPN connection</h2>';
-				$body.='<form action="'.$this->settings['page'].'" target="_top" method="post">';
-				if($row['vpn_company_uid']> 0){				
-					$body.='<input type="hidden" name="tx_onqmediamanager_pi1[section_name]" value="openvpn_company" />';
-					$body.='<input type="hidden" name="tx_onqmediamanager_pi1[uid]" value="'.$row['vpn_company_uid'].'" />';
-					$body.='<input type="hidden" name="tx_onqmediamanager_pi1[action]" value="edit" />';
-				}
-				$body.='<input type="submit" name="tx_onqmediamanager_pi1[submit]" value="Next >>" />';
-				$body.='</form>';
-			}			
-			
-			
-			
+				$body.='<input type="hidden" name="tx_onqmediamanager_pi1[uid]" value="'.$row['uid'].'" />';
+				$body.='<input type="hidden" name="tx_onqmediamanager_pi1[action]" value="edit" />';
+			}
+			$body.='<input type="submit" name="tx_onqmediamanager_pi1[submit]" value="Next >>" />';
+			$body.='</form>';
 		} else {
-			$body.='<h2>Change VPN Location</h2>';
+			$body.='<p>&nbsp;</p>';
+			$body.='<p>VPN server location:</p>';
 			$body.=$this->change_vpn_location();
+			
 		}
 		return $body;	
 	
@@ -328,20 +289,6 @@ class openmediamanager extends onqbasic_editor {
 		
 		$body.='<option value="">Please select VPN location</option>';
 		
-		/*
-		//disabled this at it was double nating, some things would work, others wouldn't
-		
-		$body.='<option value="'.$this->settings['page'];
-		if(!strstr($this->settings['page'],"?")) $body.="?";
-		$aux['vpn_name']=999999;
-		$aux['section_name']=$this->input['section_name'];
-		$body.='&'.$this->settings['prefixId'].'[all_saved]='.base64_encode(serialize($aux));
-		$body.='" ';
-	    if((isset($this->input['vpn_name']) && $this->input['vpn_name'] == 999999) || ($this->applic_config['SELECTED_VPN_UID'] == 999999)){
-			$body.='selected="selected" '; 
-		}
-		$body.= '>No VPN</option>';
-		*/
 
 		$sql="SELECT vpn_location.uid,vpn_company.company_name,vpn_location.location 
 		FROM (vpn_location) 

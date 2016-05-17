@@ -36,10 +36,10 @@ $sql="SELECT * FROM vpn_company";
 $res=$dbconn->query($sql);
 		
 while ($row=$res->fetch( PDO::FETCH_ASSOC )){
-	if($row['company_name'] != "VPNBook"){
-		$sql="UPDATE vpn_company set username='',password='',tls_auth=''";
+	if($row['company_name'] == "VPN Book"){
+		$sql="UPDATE vpn_company set username='vpnbook',password='sWedre3u',tls_auth='' WHERE uid=".$row['uid'];
 	} else {
-		$sql="UPDATE vpn_company set username='vpnbook',password='sWedre3u',tls_auth=''";
+		$sql="UPDATE vpn_company set username='',password='',tls_auth='' WHERE uid=".$row['uid'];
 	}
 	$res2=$dbconn->query($sql);
 }

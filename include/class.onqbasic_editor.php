@@ -64,7 +64,7 @@ class onqbasic_editor {
 			default:
 				if(!isset($this->config['var_display'])){
 					$this->edit_record('2');
-				} else {			
+				} else {
 					$this->gen_display();
 				}
 		}
@@ -253,7 +253,6 @@ class onqbasic_editor {
 			return;
 		}
 		
-
 		if($numofprods > 0){
 			$res=$this->settings['dbconn']->query($query);
 			$body.='<div class="onqmediamanager_list_div"><table border="0" cellpadding="0" cellspacing="0" class="onqmediamanager_list_table" >';
@@ -603,7 +602,7 @@ class onqbasic_editor {
 		//$body.='<script src="typo3conf/ext/onqmediamanager/js/datetimepicker_css.js?ver=8"></script>';
 		
 		if((!isset($this->input['section1_id_frame']) || $this->input['section1_id_frame']=='') && (!isset($this->input['section2_id_frame']) || $this->input['section2_id_frame']=='') && isset($this->config['var_display'])){
-			$body.=$this->navigation_menu();
+			//$body.=$this->navigation_menu();
 		}	
 		$body.="\n".'<div id="main_editor" class="onqmediamanager_edit_div">';
 
@@ -1464,7 +1463,7 @@ class onqbasic_editor {
 			$body.=$this->$method($row);
 		}		
 		
-		$this->navigation_holder();		
+		$this->body.=$this->navigation_menu();		
 		$this->gen_display();
 	}
 

@@ -45,7 +45,7 @@ $config['home']['nav_menu']=1;
 $config['home']['nav_search']=0;
 $config['home']['nav_add']=0;
 $config['home']['security_mode']=$config['config']['security_mode'];
-$config['home']['title']="Home";
+$config['home']['title']="Change VPN Location";
 
 
 $config['login']['nav_menu']=1;
@@ -175,6 +175,46 @@ $config['openvpn_company']['var_search'][]="vpn_company.username";
 $config['openvpn_company']['order_by'][]="vpn_company.company_name";
 $config['openvpn_company']['var_req'][]="Company Name is required|vpn_company|company_name";
 $config['openvpn_company']['var_req'][]="OpenVPN parameters are required|vpn_company|openvpn_parameters";
+
+
+
+
+
+
+$config['openvpn_company_up']['editable_field']=1;
+$config['openvpn_company_up']['view_only_if_not_editable'][]='company_name';
+$config['openvpn_company_up']['nav_menu']=1;
+$config['openvpn_company_up']['nav_search']=0;
+$config['openvpn_company_up']['nav_add']=1;
+$config['openvpn_company_up']['nav_filter']=1;
+$config['openvpn_company_up']['security_mode']=$config['config']['security_mode'];
+$config['openvpn_company_up']['title']="OpenVPN Companies";
+$config['openvpn_company_up']['allow_edit']=1;
+$config['openvpn_company_up']['allow_delete']=1;
+$config['openvpn_company_up']['allow_add']=1;
+$config['openvpn_company_up']['allow_update']=1;
+$config['openvpn_company_up']['table']="vpn_company";
+$config['openvpn_company_up']['display']=10;
+$config['openvpn_company_up']['var_edit'][]=",<h2>Company Name</h2>,,SUBTITLE,subtitle,subtitle_template,,";
+$config['openvpn_company_up']['var_edit'][]="vpn_company,OpenVPN Company,company_name,TEXT,text_input_new,,120,100";
+$config['openvpn_company_up']['var_edit'][]=",<h2>Login Details</h2>,,SUBTITLE,subtitle,subtitle_template,,";
+$config['openvpn_company_up']['var_edit'][]="vpn_company,User Name,username,TEXT,text_input_new,,120,100";
+$config['openvpn_company_up']['var_edit'][]="vpn_company,Password,password,TEXT,text_input_new,,120,100";
+//$config['openvpn_company_up']['var_display'][]="ID,vpn_company,uid,,left,100";
+$config['openvpn_company_up']['var_display'][]="Company,vpn_company,company_name,,left,100";
+$config['openvpn_company_up']['var_display'][]="User Name,vpn_company,username,,left,100";
+$config['openvpn_company_up']['var_display'][]="Password,vpn_company,password,,left,100";		
+$config['openvpn_company_up']['var_search'][]="vpn_company.company_name";
+$config['openvpn_company_up']['var_search'][]="vpn_company.username";
+$config['openvpn_company_up']['order_by'][]="vpn_company.company_name";
+$config['openvpn_company_up']['var_req'][]="Company Name is required|vpn_company|company_name";
+$config['openvpn_company_up']['var_req'][]="OpenVPN parameters are required|vpn_company|openvpn_parameters";
+
+$config['openvpn_company_up']['var_req'][]="User Name is required|vpn_company|username";
+$config['openvpn_company_up']['var_req'][]="Password required|vpn_company|password";
+
+
+
 
 
 $config['openvpn_location']['editable_field']=1;

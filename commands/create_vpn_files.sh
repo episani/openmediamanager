@@ -11,5 +11,3 @@ else
   /etc/init.d/openvpn stop
   /var/www/openmediamanager/commands/localfw.sh
 fi
-
-

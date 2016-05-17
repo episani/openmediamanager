@@ -77,7 +77,7 @@ if(isset($applic_config['SELECTED_VPN_UID']) && is_numeric($applic_config['SELEC
 		echo '0';
 		return;
 }
-if($applic_config['SELECTED_VPN_UID'] == 999999){
+if($applic_config['SELECTED_VPN_UID'] == 1){
 	echo '1';
 	return;
 }		
