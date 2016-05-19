@@ -36,6 +36,7 @@ if(isset($applic_config['SELECTED_VPN_UID']) && is_numeric($applic_config['SELEC
 		$directory="/etc/openvpn";
 		
 		$extra_params="";
+		$extra_params.="script-security 2\n";
 		$extra_params.="up /etc/openvpn/update-resolv-conf\ndown /etc/openvpn/update-resolv-conf\n";
 		$address_pool_array=explode("\n",$row['address_pool']);
 		
@@ -49,6 +50,7 @@ if(isset($applic_config['SELECTED_VPN_UID']) && is_numeric($applic_config['SELEC
 			$fp=fopen($file_name,"a");
 			fwrite($fp,stripslashes($row['username'])."\n".stripslashes($row['password']));
 			fclose($fp);
+			chmod($file_name,0600);
 			$extra_params.="auth-user-pass auth_".$row['uid'].".txt\nauth-nocache\n";
 		}	
 		

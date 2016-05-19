@@ -177,9 +177,9 @@ if((!isset($sessionData['loggedin']) || $sessionData['loggedin']==0)){
 			$res=$dbconn->query($sql);
 			$row=$res->fetch( PDO::FETCH_ASSOC );
 			
-			if($row['username']!="" && $row['password']!=""){
+			//if($row['username']!="" && $row['password']!=""){
 				$content.=$applic->navigation_holder();
-			}
+			//}
 
 		}		
 		
